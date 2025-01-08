@@ -1,0 +1,17 @@
+[package]
+name = "post_quantum_crypto"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+aes = "0.8.4"
+aes-gcm = "0.10.3"
+hkdf = "0.12.4"
+pqc_dilithium = { version = "0.2", features = ["mode3"] }
+# pqc_kyber = { version = "0.7.1", features = ["kyber1024"] } # waiting for the next release, security issue
+safe_pqc_kyber = { path = "./safe_pqc_kyber_local", version = "0.6.3", features = ["kyber1024"] }
+rand = "0.8.5"
+serde = {version = "1.0.217", features = ["derive"] }
+serde_json = "1.0.135"
+sha2 = "0.10.8"
+zstd = "0.13.2"

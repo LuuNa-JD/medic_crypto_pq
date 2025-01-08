@@ -1,0 +1,15 @@
+/target
+Cargo.lock
+/.vscode
+/tests/rand_bufs/generate
+package-lock.json
+/tests/KAT/tvecs*
+/tests/KAT/SHA256SUMS
+/test/KAT/kyber
+/fuzz/hfuzz_target
+/fuzz/hfuzz_workspace
+/fuzz/target
+www/node_modules/
+www/dist/
+www/.bin/
+pkg/package.json.bak

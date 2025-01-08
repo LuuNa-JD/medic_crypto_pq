@@ -1,0 +1,39 @@
+
+env: 
+  RUSTFLAGS: "-C target-cpu=native -C target-feature=+aes,+avx2,+sse2,+sse4.1,+bmi2,+popcnt"
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [ master, development ] 
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [i686-unknown-linux-gnu, x86_64-unknown-linux-gnu]
+        rust: [1.56.0, stable] # MSRV 1.56
+    
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install nasm
+        run: sudo apt-get install -y nasm
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: ${{ matrix.rust }}
+          target: ${{ matrix.target }}
+          override: true
+      
+      - if: ${{ matrix.target }} == 'i686-unknown-linux-gnu'
+        run: sudo apt update && sudo apt install gcc-multilib
+      
+      - name: Run Tests
+        shell: bash
+        working-directory: ./tests
+        run: | 
+          chmod +x run_all_tests.sh 
+          AVX2=1 NASM=1 ./run_all_tests.sh
